@@ -101,7 +101,7 @@ def extract_meta_data(client, text, model="gpt-4.1-mini"):
     
     
     
-def extract_answer_from_llm_using_rag(query_text):
+def extract_answer_from_llm_using_rag(query_text, number_of_docunents_for_responce):
     
     client_for_open_ai = get_openai_client()
     query = get_embeddings(client_for_open_ai, query_text)
@@ -168,14 +168,14 @@ def extract_answer_from_llm_using_rag(query_text):
     list_of_similarities_with_query = sorted(list_of_similarities_with_query, key=lambda element: element[1])
 
     indexes_of_the_most_relevant_cunks = []
-    for tuple in list_of_similarities_with_query[-10:]:
+    for tuple in list_of_similarities_with_query[-7:]:
         indexes_of_the_most_relevant_cunks.append(tuple[2])
         
     indexes_of_the_most_relevant_cunks = list(set(indexes_of_the_most_relevant_cunks))
 
     final_results = vector_store.similarity_search(
         query= query_text,
-        k=10,
+        k=number_of_docunents_for_responce,
         filter=models.Filter(
             must = [models.FieldCondition(key="metadata.{value}".format(value = 'source'),
                     match=models.MatchAny(

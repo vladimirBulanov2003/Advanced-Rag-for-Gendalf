@@ -31,17 +31,19 @@ if "graph" not in st.session_state:
 
     memory = MemorySaver()
     graph = workflow.compile(checkpointer=memory)
+    
 
     st.session_state.graph = graph
     st.session_state.memory = memory
     st.session_state.llm = model
     st.session_state.messages = []
+    st.session_state.slider = 6
 
 
 
 
 st.title("Тех-поддержка Гэндальф")
-
+st.session_state.slider = st.sidebar.slider("Выставите количество чанков (фрагментов текста), которое будет использоваться для генерации ответа.", 1, 10, st.session_state.slider)
 
 for message in st.session_state.messages:
     if isinstance(message, HumanMessage):
@@ -58,7 +60,7 @@ if prompt:
     with st.chat_message("user"):
         st.markdown(prompt)
         
-    promt_for_llm = extract_answer_from_llm_using_rag(prompt)
+    promt_for_llm = extract_answer_from_llm_using_rag(prompt, st.session_state.slider)
     result = st.session_state.graph.invoke({"messages": st.session_state.messages + [promt_for_llm]}, config = {"configurable": {"thread_id": "1"}})
     
     with st.chat_message("assistant", avatar='images.png'):
