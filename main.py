@@ -115,7 +115,6 @@ def extract_answer_from_llm_using_rag(query_text, number_of_docunents_for_respon
     if max_similarity < 0.3:
         
         promt_for_inappropriate_question = '''
-    
         Пользователь тебе задал этот вопрос: 
         {question}
         

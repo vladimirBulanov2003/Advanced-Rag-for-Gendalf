@@ -43,7 +43,7 @@ if "graph" not in st.session_state:
 
 
 st.title("Тех-поддержка Гэндальф")
-st.session_state.slider = st.sidebar.slider("Выставите количество чанков (фрагментов текста), которое будет использоваться для генерации ответа.", 1, 10, st.session_state.slider)
+st.session_state.slider = st.sidebar.slider("Выставите количество чанков (фрагментов текста), которое будет использоваться для генерации ответа. ", 1, 10, st.session_state.slider)
 
 for message in st.session_state.messages:
     if isinstance(message, HumanMessage):
